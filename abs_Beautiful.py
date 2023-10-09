@@ -4,8 +4,10 @@ from bs4 import BeautifulSoup
 import requests
 import pandas as pd
 
+# 画像保存のフォルダを作成するためのディレクトリを設定
 IMAGE_DIR = './images/'
 
+# 取得したhtmlを呼び出す
 with open('image_data.html', encoding='utf-8') as f:
     html = f.read()
 
@@ -13,7 +15,7 @@ soup = BeautifulSoup(html, 'lxml')
 
 image_tags = soup.select('.sw-ThumbnailGrid__row > .sw-Thumbnail.sw-Thumbnail--tile')
 
-
+# htmlの解析
 d_list = []
 for i, image_tag in enumerate(image_tags, start=1):
     file_name = f'abs_image_{i}'
@@ -33,8 +35,10 @@ for i, image_tag in enumerate(image_tags, start=1):
     d_list.append(d)
     
 
-
+# 取得したデータをデータフレーム化
 df = pd.DataFrame(d_list)
+
+# データフレームをcsvファイルに出力
 df.to_csv('abs_image_urls.csv', index=None, encoding='utf-8-sig')
 
 
